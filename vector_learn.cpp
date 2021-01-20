@@ -103,3 +103,53 @@ int main()
     for (int i = 0; i < n; ++i)
         cout << arr[i] << " ";
 }
+
+
+
+int main_x( )
+{
+	// declaring vector n
+	vector<int>n{1,2,3,4,5,6,7,8,9,0};
+	
+	/* This is how the operator[i]
+	in c++ works i is the index
+	which is changing continuously
+	i.e printing the vector is best example*/
+
+	cout <<"Output of operator[]: \n";
+	for(int i=0; i<n.size(); i++)
+	cout<<n[i]<<" ";
+	
+	/* This is how at() works similar
+	to the operator[] ,
+	Here it changes the whole vector
+	*/
+	cout << "\n\nOutput of at(): \n";
+	for(int i=0; i<n.size(); i++)
+	{
+	n.at(i)=i;
+	cout<<n.at(i)<<" ";
+	}
+	cout << "\n\nOutput of change vector because of at(): \n";
+	for(int i=0; i<n.size(); i++)
+	cout<<n[i]<<" ";
+
+	
+	/*This is how the front()
+	works by using that here we are
+	accessing the front element of vector
+	*/
+	cout << "\n\nOutput of front(): \n";
+	cout<<n.front();
+
+
+	
+	/*This is how the back()
+	works by using that here we are
+	accessing the back element of vector
+	*/
+	cout << "\n\nOutput of back(): \n";
+	cout<<n.back();
+
+	return 0;
+}
