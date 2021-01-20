@@ -1,5 +1,8 @@
 // C++ program to print words in a sentence
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <string.h>
+
 using namespace std;
 
 void removeDupWord(string str)
@@ -39,7 +42,7 @@ void removeDupWord2(char str[])
 // Driver code
 int main()
 {
-    string str = "Geeks for Geeks";
+    string str = "india is best";
     removeDupWord(str);
 
     std::string name;
