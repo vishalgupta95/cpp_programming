@@ -1,4 +1,8 @@
 // A design without factory pattern 
+/*
+Factory pattern says that object creation will be handled by subclass class using the input type. 
+We are building an application that needs to support two different databases, Oracle and SQL Server.
+*/
 #include <iostream> 
 using namespace std; 
 

@@ -15,7 +15,7 @@ public:
     }
 };
 
-void insertAttail(int val, node *&head)
+void insertAttail(int val, node *&head) //passing a pointer by reference rather than by value. 
 {
 
     node *add = new node(val);

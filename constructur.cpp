@@ -28,13 +28,14 @@ class car
 		} 
 }; 
 
+#if 0
 int main() 
 { 
 	// Using new keyword 
 	car *p = new car("Honda", 2017); 
 	p->display(); 
 } 
-
+#endif
 
 class Line {
 
@@ -84,3 +85,4 @@ int main() {
 
    return 0;
 }
+

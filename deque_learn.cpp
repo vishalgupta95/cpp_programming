@@ -2,6 +2,8 @@
 #include <deque>
 
 /*
+A vector is a dynamic array, whose size can be increased, 
+
 As vector and deque both provides a function to push_back the element at the last.
 where deque also provides a function push_front to insert the element at the beginning,
  which is bit costly in case of vector.
