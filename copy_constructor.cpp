@@ -17,6 +17,17 @@ Foo y(x);  // copy constructed
 Foo z(Foo());   // move constructed 
 Foo w(getFoo());  // move constructed 
 
+A copy constructor must leave the source object intact, so it must allocate 
+its own copy of the object's data for itself. Both objects now refer to different 
+copies of the same data in different areas of memory 
+
+
+A move constructor, on the other hand, can simply "move" the data by 
+taking ownership of the pointer that refers to the data, leaving the data
+ itself where it resides. The new object now points at the original data, and
+ the source object is modified to no longer point at the data. The data itself is 
+left untouched.
+
 
 A move constructor allows the resources owned by an rvalue object to be moved into an lvalue without creating its copy. An rvalue is an 
 expression that does not have  any memory address, and an lvalue is an expression with a memory address.
