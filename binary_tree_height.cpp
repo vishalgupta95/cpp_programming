@@ -10,18 +10,18 @@ struct Node{
 };
 
 Node* createTree(){
-  Node* root = new Node();
+  Node* root = new Node;
   
   // Creating 2nd level:
-  Node* one = new Node();
-  Node* two = new Node();
+  Node* one = new Node;
+  Node* two = new Node;
   root->left = one;
   root->right = two;
 
   // Creating 3rd level:
-  Node* three = new Node();
-  Node* four = new Node();
-  Node* five = new Node();
+  Node* three = new Node;
+  Node* four = new Node;
+  Node* five = new Node;
   one->left = three;
   two->left = four;
   two->right = five;
