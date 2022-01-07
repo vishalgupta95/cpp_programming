@@ -14,7 +14,14 @@ class car
 			this ->name = a; 
 			this ->num = n; 
 		} 
-
+/*
+                car(string a, int n)  
+                {
+                  cout << "Constructor called" << endl; 
+                  name = a;  
+                  num = n;  
+                }                                                                                                                        }
+*/
 		void enter() 
 		{ 
 			cin>>name; 
