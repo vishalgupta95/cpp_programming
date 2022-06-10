@@ -1,5 +1,6 @@
 // CPP program to illustrate 
 // use of new keyword 
+// For a dynamically allocated object, constructor is invoked by new operator 
 #include<iostream> 
 using namespace std; 
 class car 
