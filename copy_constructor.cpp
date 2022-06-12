@@ -21,6 +21,12 @@ A copy constructor must leave the source object intact, so it must allocate
 its own copy of the object's data for itself. Both objects now refer to different 
 copies of the same data in different areas of memory 
 
+In C++, a Copy Constructor may be called in the following cases: 
+
+When an object of the class is returned by value. 
+When an object of the class is passed (to a function) by value as an argument. 
+When an object is constructed based on another object of the same class. 
+When the compiler generates a temporary object.
 
 A move constructor, on the other hand, can simply "move" the data by 
 taking ownership of the pointer that refers to the data, leaving the data
@@ -34,7 +40,7 @@ expression that does not have  any memory address, and an lvalue is an expressio
 
 int &j = 20;
 The above code snippet will give an error because, in C++, a variable cannot be referenced to a temporary object. The correct way to do 
-it is to create an​ rvalue reference using && :
+it is to create and rvalue reference using && :
 
 int &&j = 20;
 Temporary objects are often created during the execution of a C++ program.
@@ -49,107 +55,186 @@ using the move constructor is an efficient choice.
 #include <vector>
 using namespace std;
 
-class A{
-  int *ptr;
+#if 0
+
+class Point {
+private:
+    int x, y;
+
 public:
-  A(){
-    // Default constructor
-    cout << "Calling Default constructor\n";
-    ptr = new int ;
-  }
+    Point(int x1, int y1)
+    {
+        x = x1;
+        y = y1;
+    }
 
-  A( const A & obj){
-    // Copy Constructor
-    // copy of object is created
-    this->ptr = new int;
-    // Deep copying
-    cout << "Calling Copy constructor\n";
-  }
-/*A move constructor allows the resources owned by an rvalue object to be moved into an lvalue without creating its copy. An rvalue is an expression that does not have 
-any memory address, and an lvalue is an expression with a memory address.
-*/
-  A ( A && obj){
-    // Move constructor
-    // It will simply shift the resources,
-    // without creating a copy.
-     cout << "Calling Move constructor\n";
-    this->ptr = obj.ptr;
-    obj.ptr = NULL;
-  }
+    // Copy constructor
+    Point(const Point& p1)
+    {
+        x = p1.x;
+        y = p1.y;
+    }
 
-  ~A(){
-    // Destructor
-    cout << "Calling Destructor\n";
-    delete ptr;
-  }
-
+    int getX() { return x; }
+    int getY() { return y; }
 };
 
-int main() {
+int main()
+{
+    Point p1(10, 15); // Normal constructor is called here
+    Point p2 = p1; // Copy constructor is called here
 
-  vector <A> vec;
-  /* The copy constructor is called as the temporary object of A is pushed back in the vector.
-    In the above code, there is a serious performance overhead as the temporary object A is first created in the default constructor 
-    and then in the copy constructor.
-     The move constructor is used to avoid this performance overhead:
+    // Let us access values assigned by constructors
+    cout << "p1.x = " << p1.getX()
+        << ", p1.y = " << p1.getY();
+    cout << "\np2.x = " << p2.getX()
+        << ", p2.y = " << p2.getY();
 
-  */
-  vec.push_back(A());
-
-  return 0;
-
+    return 0;
 }
 
 
-#include <iostream>
+#endif
 
+class String
+{
+private:
+    char *s;
+    int size;
+public:
+    String(const char *str = NULL);
+    String(const String &src);
+    ~String();
+    String& operator=(const String &rhs);
+    void print() const;
+};
+
+String::String(const char *str)
+{
+    size = strlen(str);
+    s = new char[size+1];
+    strcpy(s, str);
+}
+
+String::String(const String &src)
+{
+    size = src.size;
+    s = new char[size+1];
+    strcpy(s, src.s);
+}
+
+String::~String()
+{
+    delete [] s;
+} 
+
+void String::print() const
+{
+    cout << s << endl;
+}
+
+String& String::operator=(const String &rhs)
+{
+    if (&rhs != this)
+    {
+        String tmp(rhs);
+        swap(s, tmp.s);
+        swap(size, tmp.size);
+    }
+    return *this;
+}
+
+int main()
+{
+    String str1("learnc++");
+    String str2 = str1;
+
+    str1.print();
+    str2.print();
+
+    //str2.change("learnjava");
+    str2 = "learnjava";
+
+    str1.print();
+    str2.print();
+
+    return 0;
+}
+
+
+
+
+// C++ program without declaring the
+// move constructor
+#include <iostream>
+#include <vector>
 using namespace std;
 
-class Line {
+// Move Class
+class Move {
+private:
+    // Declaring the raw pointer as
+    // the data member of the class
+    int* data;
 
-   public:
-      int getLength( void );
-      Line( int len );             // simple constructor
-      Line( const Line &obj);  // copy constructor
-      ~Line();                     // destructor
+public:
+    // Constructor
+    Move(int d)
+    {
+        // Declare object in the heap
+        data = new int;
+        *data = d;
 
-   private:
-      int *ptr;
+        cout << "Constructor is called for "
+            << d << endl;
+    };
+
+    // Copy Constructor to delegated
+    // Copy constructor
+    Move(const Move& source)
+        : Move{ *source.data }
+    {
+
+        // Copying constructor copying
+        // the data by making deep copy
+        cout << "Copy Constructor is called - "
+            << "Deep copy for "
+            << *source.data
+            << endl;
+    }
+
+    // Destructor
+    ~Move()
+    {
+        if (data != nullptr)
+
+            // If the pointer is not
+            // pointing to nullptr
+            cout << "Destructor is called for "
+                << *data << endl;
+        else
+
+            // If the pointer is
+            // pointing to nullptr
+            cout << "Destructor is called"
+                << " for nullptr"
+                << endl;
+
+        // Free the memory assigned to
+        // data member of the object
+        delete data;
+    }
 };
 
-// Member functions definitions including constructor
-Line::Line(int len) {
-   cout << "Normal constructor allocating ptr" << endl;
-   
-   // allocate memory for the pointer;
-   ptr = new int;
-   *ptr = len;
+// Driver Code
+int main()
+{
+    // Create vector of Move Class
+    vector<Move> vec;
+
+    // Inserting object of Move class
+    vec.push_back(Move{ 10 });
+    vec.push_back(Move{ 20 });
+    return 0;
 }
 
-Line::Line(const Line &obj) {
-   cout << "Copy constructor allocating ptr." << endl;
-   ptr = new int;
-   *ptr = *obj.ptr; // copy the value
-}
-
-Line::~Line(void) {
-   cout << "Freeing memory!" << endl;
-   delete ptr;
-}
-
-int Line::getLength( void ) {
-   return *ptr;
-}
-
-void display(Line obj) {
-   cout << "Length of line : " << obj.getLength() <<endl;
-}
-
-// Main function for the program
-int main() {
-   Line line(10);
-
-   display(line);
-
-   return 0;
-}

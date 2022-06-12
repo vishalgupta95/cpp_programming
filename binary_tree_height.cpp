@@ -1,5 +1,15 @@
 //For example, left skewed binary tree shown in Figure 1(a) with 5 nodes has height 5-1 = 4 and binary tree shown in Figure 1(b) 
 //with 5 nodes has height floor(log25) = 2.
+//Height of a tree is the length of the path from root of that tree to its farthest node (i.e. leaf node farthest from the root).
+//A tree with only root node has height 0 and a tree with zero nodes would be considered as empty. An empty tree has height of -1.
+// in some books empty tree has height of 0. see here
+// The height of a binary tree is found using the recursive Depth-First Search (DFS) algorithm, as shown below:
+//
+// Base case: If there is no node, return 0.
+//
+// Else: If there are 1 or 2 children, return the maximum of the height of the left and right sub-trees, plus 1 to account for 
+// the current node. The height of a sub-tree is found by recursively calling the function, and passing the child node as the parameter.
+
 
 #include <iostream>
 using namespace std;

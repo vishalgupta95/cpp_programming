@@ -1,5 +1,30 @@
-nclude <bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+
+/*
+c++ 11 introduced lambda expression to allow us write an inline function which can
+be used for short snippets of code that are not going to be reuse and not worth naming. 
+In its simplest form lambda expression can be defined as follows: 
+
+[ capture clause ] (parameters) -> return-type  
+{   
+   definition of method   
+} 
+
+[](){}                // An empty lambda, which does and returns nothing
+int a = 0;                       // Define an integer variable
+auto f = []()   { return a*9; }; // Error: 'a' cannot be accessed
+auto f = [a]()  { return a*9; }; // OK, 'a' is "captured" by value
+auto f = [&a]() { return a++; }; // OK, 'a' is "captured" by reference
+
+int multiplier = 5;
+auto timesFive = [multiplier](int a) { return a * multiplier; }; 
+std::out << timesFive(2); // Prints 10
+
+multiplier = 15;
+std::out << timesFive(2); // Still prints 2*5 == 10
+
+*/
 
 // Function to print vector
 void printVector(vector<int> v)
