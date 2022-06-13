@@ -24,138 +24,98 @@ For above binary tree, the final values in the map will be
 2 -> [6]
 
 */
-
-#include<iostream>
-#include<map>
-#include<queue>
+#include <iostream>
+#include <map>
 using namespace std;
-/* A binary tree node has data, pointer to left child 
-and a pointer to right child */
+ 
+// Data structure to store a binary tree node
 struct Node
 {
     int data;
-    Node* left;
-    Node* right;
-    /*For initilaizing the Node*/
-    Node(int val)
+    Node *left, *right;
+ 
+    Node(int data)
     {
-        data = val;
-        left = NULL;
-        right = NULL;
+        this->data = data;
+        this->left = this->right = nullptr;
     }
 };
-
-void helpVertical(Node* rt,int h,map<int,vector<int> > &mp)
+ 
+// Recursive function to perform preorder traversal on the tree and fill the map.
+// Here, the node has `dist` horizontal distance from the tree's root
+void printVertical(Node* node, int dist, auto &map)
 {
-       /* PreOrder Traversal */
-    if(rt==NULL)
-         return;
-    mp[h].push_back(rt->data);
-    helpVertical(rt->left,h-1,mp);
-    helpVertical(rt->right,h+1,mp);
+    // base case: empty tree
+    if (node == nullptr) {
+        return;
+    }
+ 
+    // insert nodes present at a current horizontal distance into the map
+    map.insert(make_pair(dist, node->data));
+ 
+    // recur for the left subtree by decreasing horizontal distance by 1
+    printVertical(node->left, dist - 1, map);
+ 
+    // recur for the right subtree by increasing horizontal distance by 1
+    printVertical(node->right, dist + 1, map);
 }
-void vertical(Node* rt)
-{ 
-       /*Using Hashing to Store the Data*/
-    map<int,vector<int> > mp;
-    map<int,vector<int> >::iterator it;
-    int h=0;
-    helpVertical(rt,h,mp);
-    for(it=mp.begin();it!=mp.end();it++)
+ 
+// Function to perform vertical traversal on a given binary tree
+void printVertical(Node* root)
+{
+    // create an empty map where
+    // key —> relative horizontal distance of the node from the root node, and
+    // value —> nodes present at the same horizontal distance
+    multimap<int, int> map;
+ 
+    /* We can also use `map<int, vector<int>>` instead of `multimap<int, int>` */
+ 
+    // perform preorder traversal on the tree and fill the map
+    printVertical(root, 0, map);
+ 
+    // traverse the map and print the vertical nodes
+    int temp = 0;
+    for (auto it = map.begin(); it != map.end(); it++)
     {
-        cout<<it->first<<" -> [";
-        for(int i=0;i<it->second.size();i++)
+        if (temp != it->first)
         {
-            cout<<it->second[i]<<", ";
+            cout << endl;
+            temp = it->first;
         }
-        cout<<"\b\b]"<<endl;
+        cout << it->second << " ";
     }
 }
-/* DRIVER FUNCTION */
+ 
 int main()
 {
-    /*Insert the Elements according to the Tree (Picture)*/
+    /* Construct the following tree
+            1
+          /   \
+         /     \
+        2       3
+              /   \
+             /     \
+            5       6
+          /   \
+         /     \
+        7       8
+              /   \
+             /     \
+            9      10
+    */
+ 
     Node* root = new Node(1);
     root->left = new Node(2);
     root->right = new Node(3);
     root->right->left = new Node(5);
     root->right->right = new Node(6);
     root->right->left->left = new Node(7);
-       root->right->left->right = new Node(8);
-    cout<<"Vertical Order Traversal of the given Tree is "<<endl;
-    vertical(root);
+    root->right->left->right = new Node(8);
+    root->right->left->right->left = new Node(9);
+    root->right->left->right->right = new Node(10);
+ 
+    printVertical(root);
+ 
     return 0;
 }
-
-
-
-/*  method 2
-
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-
-public:
-    vector<vector<int>> verticalOrder(TreeNode* root) {
-
-        vector<vector<int> > result;
-
-        if(!root)
-            return result;
-
-        map<int,vector<int> > m;
-
-        queue<pair<TreeNode *,int> > q;
-
-        q.push(make_pair(root, 0));
-
-        while(!q.empty()) {
-
-            auto top = q.front();
-            q.pop();
-
-            if(m.find(top.second) == m.end())
-                m.insert(make_pair(top.second, vector<int> ()));
-
-            m[top.second].push_back(top.first->val);
-
-            if(top.first->left)
-                q.push(make_pair(top.first->left, top.second-1));
-
-            if(top.first->right)
-                q.push(make_pair(top.first->right, top.second+1));
-
-        }
-
-        for(auto vec: m) {
-            result.push_back(vector<int> ());
-            result.back() = vec.second;
-        }
-
-        return result;
-
-    }
-}
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
 
