@@ -8,7 +8,8 @@ void disp(int *top, int count)
 {
     int i = 0;
     int *ptr =top;
-    sort(ptr, ptr + count);
+    sort(ptr, ptr + count); //Sort is an in-built function in a C++ STL 
+    //The function can also be used for custom sorting by passing in a comparator function that returns a boolean
    //sort(ptr, ptr + count, greater<int>()); // reverse
 
     for (i = 0; i < count; i++)
