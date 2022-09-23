@@ -3,19 +3,22 @@
 using namespace std;
 
 /*
-A copy constructor constructs a new object by using the content of the argument object. An
-overloaded assignment operator assigns the contents of an existing object to another existing
-object of the same class.
-*/
+ *A move constructor, on the other hand, can simply "move" the data by 
+ taking ownership of the pointer that refers to the data, leaving the data
+ itself where it resides. The new object now points at the original data, and
+ the source object is modified to no longer point at the data. The data itself is 
+ left untouched.
 
-/*In the above code, there is a serious performance overhead as the temporary object cpym is first 
-created in the default constructor and then in the copy constructor. The move constructor is 
-used to avoid this performance overhead:
-*/
-/*
-The move assignment operator is different than a move constructor because a move assignment
- operator is called on an existing object, while a move constructor is called on an object created by the operation. 
-Thereafter, the other object's data is no longer valid.
+ A move constructor allows the resources owned by an rvalue object to be moved into an lvalue without creating its copy. An rvalue is an 
+ expression that does not have  any memory address, and an lvalue is an expression with a memory address.
+
+ int &j = 20;
+ The above code snippet will give an error because, in C++, a variable cannot be referenced to a temporary object. The correct way to do 
+ it is to create and rvalue reference using && :
+
+ int &&j = 20;
+ Temporary objects are often created during the execution of a C++ program.
+ *
 */
 class Names{
 private:

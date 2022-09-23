@@ -24,80 +24,46 @@ std::out << timesFive(2); // Prints 10
 multiplier = 15;
 std::out << timesFive(2); // Still prints 2*5 == 10
 
+// We can also pass a lambda object as the comparator
+    // and reuse the lambda multiple times
+    auto compare = [](const Base &a, const Base &b) {
+                     return a.variable < b.variable;};
+    std::sort(std::begin(deque), std::end(deque), compare);
+    std::sort(std::begin(array), std::end(array), compare);
+    list.sort(compare);
+    flist.sort(compare);
+
+
 */
 
-// Function to print vector
-void printVector(vector<int> v)
-{
-    // lambda expression to print vector
-    for_each(v.begin(), v.end(), [](int i)
-    {
-        std::cout << i << " ";
-    });
-    cout << endl;
+#include <vector>
+#include <stdlib.h>   /* srand, rand */
+#include <algorithm>
+using namespace std;
+
+// Helper function to print a vector
+void printVector(vector<int> V) {
+  for (int i=0; i < V.size(); i++)
+    cout << V[i] << " ";
+  cout << endl;
 }
 
-int main()
-{
-    vector<int> v {4, 1, 3, 5, 2, 3, 1, 7};
+int main() {
 
-    printVector(v);
+  vector<int> V {3, 2, 5, 7, 1, 4, 6};
 
-    // below snippet find first number greater than 4
-    // find_if searches for an element for which
-    // function(third argument) returns true
-    vector<int>:: iterator p = find_if(v.begin(), v.end(), [](int i)
-    {
-        return i > 4;
-    });
-    cout << "First number greater than 4 is : " << *p << endl;
+  cout << "Before:\t";
+  printVector(V);
 
+  // The third argument to the sort function is a lambda expression
+  // that has an empty capture clause, has two parameters a and b,
+  // and returns a boolean. The lambda body is just a > b in order
+  // to sort the values descendingly.
+  sort(V.begin(), V.end(), [](const int& a, const int& b) -> bool
+  {
+    return a > b;
+  });
 
-    // function to sort vector, lambda expression is for sorting in
-    // non-decreasing order Compiler can make out return type as
-    // bool, but shown here just for explanation
-    sort(v.begin(), v.end(), [](const int& a, const int& b) -> bool
-    {
-        return a > b;
-    });
-
-    printVector(v);
-
-    // function to count numbers greater than or equal to 5
-    int count_5 = count_if(v.begin(), v.end(), [](int a)
-    {
-        return (a >= 5);
-    });
-    cout << "The number of elements greater than or equal to 5 is : "
-        << count_5 << endl;
-
-    // function for removing duplicate element (after sorting all
-    // duplicate comes together)
-    p = unique(v.begin(), v.end(), [](int a, int b)
-    {
-        return a == b;
-    });
-
-    // resizing vector to make size equal to total different number
-    v.resize(distance(v.begin(), p));
-    printVector(v);
-
-    // accumulate function accumulate the container on the basis of
-    // function provided as third argument
-    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    int f = accumulate(arr, arr + 10, 1, [](int i, int j)
-    {
-        return i * j;
-    });
-
-    cout << "Factorial of 10 is : " << f << endl;
-
-    //   We can also access function by storing this into variable
-    auto square = [](int i)
-    {
-        return i * i;
-    };
-
-    cout << "Square of 5 is : " << square(5) << endl;
+  cout << "After:\t";
+  printVector(V);
 }
-
