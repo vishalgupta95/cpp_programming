@@ -1,44 +1,53 @@
 /*
-What is Indegree of a node?
-Image result for indegree in graph
-The degree of a node in an undirected graph is the number of edges incident on it
-
+Compute the in-degree of every node in the graph
+Make a visited array of nodes and initialize the count of each node as 0 initially
+First pick all the nodes with in-degree as 0 and push them into a queue
+Repeat the following steps until the queue becomes empty
+Start removing the nodes from the queue
+Decrease the in-degree of all the nodes attached by this node by 1, if the in-degree of any of these attached nodes is 0, then push them into the queue
+While pushing the node into the queue, increment the value of count by 1
+Finally, check if the number of visited nodes is equal to the number of nodes in the graph, the graph does not contain a cycle, else it contains a cycle
+Note: Indegree of a node is the total number of edges that are coming to that node.
 */
+include<bits/stdc++.h>
+using namespace std;
 
-class Solution {
-    bool isCyclic(vector<vector<int>>& adj,vector<int>& visited,int curr)
-    {
-        if(visited[curr]==2)
-            return true;
-        
-        visited[curr] = 2;
-        for(int i=0;i<adj[curr].size();++i)
-            if(visited[adj[curr][i]]!=1)
-                if(isCyclic(adj,visited,adj[curr][i]))
-                    return true;
-        
-        visited[curr] = 1;
-        return false;
+bool isCyclicGraph(vector<pair<int,int>>&edges,int n){
+    vector<vector<int>> adj(n+1);
+    vector<int> inDegree(n+1,0);
+    for(auto it:edges){
+        int u=it.first;
+        int v=it.second;
+        inDegree[v]++;
+        adj[u].push_back(v);
     }
-public:
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        cout.tie(NULL);
-        
-        vector<vector<int>> adj(numCourses);
-        //Make adjacency matrix (Directed graph)
-        for(int i=0;i<prerequisites.size();++i)
-            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
-        
-        vector<int> visited(numCourses,0);
-        for(int i=0;i<numCourses;++i)
-            if(visited[i]==0)
-                if(isCyclic(adj,visited,i))
-                    return false;
-        
-        return true;
+
+    queue<int> q;
+    for(int i=1;i<=n;i++){
+        if(inDegree[i]==0){
+            q.push(i);
+        }
     }
-};
 
+    int count=0;
+    while(!q.empty()){
+        int cur=q.front();
+        q.pop();
+        count++;
+        for(auto nbr:adj[cur]){
+            inDegree[nbr]--;
+            if(inDegree[nbr]==0){
+                q.push(nbr);
+            }
+        }
+    }
+    if(count==n)return false;
+    return true;
 
+}
+
+int main(){
+    vector<pair<int,int>> edges{{1,2},{4,1},{2,4},{3,4},{5,2},{1,3}};
+    cout<<isCyclicGraph(edges,5);
+	return 0;
+}

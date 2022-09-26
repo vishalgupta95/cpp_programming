@@ -1,3 +1,61 @@
+If a tree has n nodes, then each node is visited only once in inorder traversal and hence the complexity is O(n).
+
+space complexity 
+-----------------
+
+The space Complexity of an algorithm is the total space taken by the algorithm with respect to the
+input size. Space complexity includes both Auxiliary space and space used by input.
+Merge Sort uses O(n) auxiliary space, Insertion sort, and Heap Sort use O(1) auxiliary space. 
+It’s necessary to mention that space complexity depends on a variety of things such as the 
+programming language, the compiler, or even the machine running the algorithm
+
+int square(int a)
+{
+	return a*a; // constant space complexity
+}
+
+int sum(int A[ ], int n)
+{
+   int sum = 0, i;
+   for(i = 0; i < n; i++)
+      sum = sum + A[i];a // Linear Space Complexity.
+   return sum;
+}
+
+
+consistent hashing vs mod hashing
+--------------------------------
+Option 1: Mod the hash value  (remender is output ) by the number of machines.
+
+In the classic hashing method, we always assume that The number of memory locations is
+known, and This number never changes.A small change in the cluster size could result in a 
+reshuffle of all the data in the cluster. As the cluster size grows, this becomes unsustainable
+because the amount of work required for each hash change grows linearly with cluster size.
+
+This is where the concept of consistent hashing comes in.
+
+It represents the resource requestors (which I shall refer to as ‘requests’) and the server nodes 
+in a virtual ring structure known as a hashing.
+The number of locations is no longer fixed, but the ring is considered to have an infinite number 
+of points, and the server nodes can be placed at random locations on this ring. (Of course, 
+choosing this random number again can be done using a hash function, but the second step of 
+dividing it by the number of available locations is skipped as it is no longer a finite number).
+The requests, that is, the users, computers or serverless programs, which are analogous to keys 
+in the classic hashing approach, are also placed on the same ring using the same hash function.
+
+How is the decision about which request will be served by which server node made? If we 
+assume the ring is ordered so that clockwise traversal of the ring corresponds to 
+increasing order of location addresses, each request can be served by the server node 
+that first appears in this clockwise traversal.
+
+But that’s it. It’s just this one range, corresponding to the failed server node, that needed to be
+ re-assigned, while the rest of the hashring and request-node assignments still remain 
+unaffected.
+
+Contrast this with the classic hashing technique in which a change in size of the hash table 
+effectively disturbs ALL of the mappings. Thanks to consistent hashing, only a portion (relative to the ring distribution factor) of the requests will be affected by a given ring change. (A ring change occurs due to an addition or removal of a node causing some of the request-node mappings to change.)
+
+
 
 STL
 ---------
