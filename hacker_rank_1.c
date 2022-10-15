@@ -52,7 +52,6 @@ int main_2 () {
   int count = 0;
   while (++ch <= 255) {
     count++;
-    if(count > 252)sleep(1);
     printf("%d ch  %d \n", count,ch);
   }
 }
@@ -95,7 +94,7 @@ void swap(int *xp, int *yp)
     *yp = temp;
 }
 
-int main(){
+int main_6(){
     int a =10,b=25,c=15;
     int res =0;
 
@@ -106,4 +105,19 @@ int main(){
         swap(&a,&c);
     }
     printf("%d",res); // 45
+}
+/*
+ The sprintf() function returns the number of bytes that are written in the array, not counting the ending null character.
+ delete is used to deallocate storage of a single object and delete[] used to deallocate storage of an array.
+
+ */
+#define p1 "vishal"
+int main () {
+   char str[10];
+   char abc[] = "vishal";
+   char *p ="vishal";
+   int n =sprintf(str, "%s",abc);
+   printf("%lu %lu %lu %lu\n",sizeof(p),strlen(p),sizeof("vishal"),n); // 8 6 7 6
+   printf("%lu %lu \n",sizeof(p1),strlen(p1)); //7 6
+   return(0);
 }
