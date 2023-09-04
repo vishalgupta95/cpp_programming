@@ -52,6 +52,49 @@ using the move constructor is an efficient choice.
 */
 
 #include <iostream>
+#include <string>
+
+using namespace std; // This brings the entire std namespace into scope
+
+class Person {
+public:
+    // Constructor
+    Person(string name, int age) : name(name), age(age) {}
+
+    // Copy constructor
+    Person(const Person &other) : name(other.name), age(other.age) {
+        cout << "Copy constructor called." << endl;
+    }
+
+    // Member function to display person's information
+    void display() {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+
+private:
+    string name;
+    int age;
+};
+
+int main() {
+    // Create a Person object
+    Person person1("Alice", 30);
+
+    // Use the copy constructor to create another Person object as a copy of person1
+    Person person2 = person1;
+
+    // Display the information of both persons
+    cout << "Person 1:" << endl;
+    person1.display();
+
+    cout << "Person 2 (Copy of Person 1):" << endl;
+    person2.display();
+
+    return 0;
+}
+
+
+#include <iostream>
 #include <vector>
 using namespace std;
 
