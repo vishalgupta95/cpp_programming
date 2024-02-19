@@ -5,4 +5,4 @@ git add filename.c
 git commit -m "brief"
 git push -u origin main
 git diff --name-only --cached
-#g++  stack_using_2_queue.cpp -std=c++11    
+# g++  stack_using_2_queue.cpp -std=c++11    
