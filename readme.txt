@@ -1,5 +1,5 @@
 Connecting to existing repository
-git clone https://github.com/vishalgupta95/cpp-programming.git
+git clone https://github.com/vishalgupta95/cpp_programming.git
 cd c-programming
 git add filename.c 
 git commit -m "brief"
